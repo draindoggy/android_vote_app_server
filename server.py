@@ -86,8 +86,9 @@ def show_results():
         results = {}
         for i, title in enumerate(titles):
             if i not in cache["results"]:
-                vote_counts = contract.functions.getResults(i).call()
-                cache["results"][i] = [all_options[i], vote_counts]
+                _, vote_counts = contract.functions.getResults(i).call()
+                vote_counts_str = [str(count) for count in vote_counts]
+                cache["results"][i] = [all_options[i], vote_counts_str]
             results[title] = cache["results"][i]
         return jsonify(results), 200
     except Exception as e:
